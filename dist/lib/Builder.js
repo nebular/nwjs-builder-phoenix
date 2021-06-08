@@ -564,84 +564,91 @@ var Builder = /** @class */ (function () {
                         files = _c.sent();
                         debug('in copyFiles', 'config.files', config.files);
                         debug('in copyFiles', 'files', files);
-                        if (!config.packed) return [3 /*break*/, 21];
+                        if (!config.prepackHook) return [3 /*break*/, 4];
+                        console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
+                        return [4 /*yield*/, this.systemSync([this.dir + "/" + config.prepackHook, targetDir, appRoot].join(" "))];
+                    case 3:
+                        _c.sent();
+                        _c.label = 4;
+                    case 4:
+                        if (!config.packed) return [3 /*break*/, 23];
                         _a = platform;
                         switch (_a) {
-                            case 'win32': return [3 /*break*/, 3];
-                            case 'win': return [3 /*break*/, 3];
-                            case 'linux': return [3 /*break*/, 3];
-                            case 'darwin': return [3 /*break*/, 13];
-                            case 'osx': return [3 /*break*/, 13];
-                            case 'mac': return [3 /*break*/, 13];
+                            case 'win32': return [3 /*break*/, 5];
+                            case 'win': return [3 /*break*/, 5];
+                            case 'linux': return [3 /*break*/, 5];
+                            case 'darwin': return [3 /*break*/, 15];
+                            case 'osx': return [3 /*break*/, 15];
+                            case 'mac': return [3 /*break*/, 15];
                         }
-                        return [3 /*break*/, 19];
-                    case 3: return [4 /*yield*/, util_1.tmpName({
+                        return [3 /*break*/, 21];
+                    case 5: return [4 /*yield*/, util_1.tmpName({
                             postfix: '.zip',
                         })];
-                    case 4:
+                    case 6:
                         nwFile = _c.sent();
                         return [4 /*yield*/, util_1.compress(this.dir, files.filter(function (file) { return !file.endsWith('/'); }), 'zip', nwFile)];
-                    case 5:
-                        _c.sent();
-                        return [4 /*yield*/, util_1.tmpDir()];
-                    case 6:
-                        tempDir = (_c.sent()).path;
-                        return [4 /*yield*/, this.writeStrippedManifest(path_1.resolve(tempDir, 'package.json'), pkg, config)];
                     case 7:
                         _c.sent();
-                        return [4 /*yield*/, util_1.compress(tempDir, ['./package.json'], 'zip', nwFile)];
+                        return [4 /*yield*/, util_1.tmpDir()];
                     case 8:
-                        _c.sent();
-                        return [4 /*yield*/, fs_extra_1.remove(tempDir)];
+                        tempDir = (_c.sent()).path;
+                        return [4 /*yield*/, this.writeStrippedManifest(path_1.resolve(tempDir, 'package.json'), pkg, config)];
                     case 9:
                         _c.sent();
-                        return [4 /*yield*/, util_1.findExecutable(platform, targetDir)];
+                        return [4 /*yield*/, util_1.compress(tempDir, ['./package.json'], 'zip', nwFile)];
                     case 10:
-                        executable = _c.sent();
-                        return [4 /*yield*/, this.combineExecutable(executable, nwFile)];
+                        _c.sent();
+                        return [4 /*yield*/, fs_extra_1.remove(tempDir)];
                     case 11:
                         _c.sent();
-                        return [4 /*yield*/, fs_extra_1.remove(nwFile)];
+                        return [4 /*yield*/, util_1.findExecutable(platform, targetDir)];
                     case 12:
-                        _c.sent();
-                        return [3 /*break*/, 20];
+                        executable = _c.sent();
+                        return [4 /*yield*/, this.combineExecutable(executable, nwFile)];
                     case 13:
-                        _i = 0, files_2 = files;
-                        _c.label = 14;
-                    case 14:
-                        if (!(_i < files_2.length)) return [3 /*break*/, 17];
-                        file = files_2[_i];
-                        return [4 /*yield*/, util_1.copyFileAsync(path_1.resolve(this.dir, file), path_1.resolve(appRoot, file))];
-                    case 15:
                         _c.sent();
+                        return [4 /*yield*/, fs_extra_1.remove(nwFile)];
+                    case 14:
+                        _c.sent();
+                        return [3 /*break*/, 22];
+                    case 15:
+                        _i = 0, files_2 = files;
                         _c.label = 16;
                     case 16:
-                        _i++;
-                        return [3 /*break*/, 14];
-                    case 17: return [4 /*yield*/, this.writeStrippedManifest(path_1.resolve(appRoot, 'package.json'), pkg, config)];
-                    case 18:
-                        _c.sent();
-                        return [3 /*break*/, 20];
-                    case 19: throw new Error('ERROR_UNKNOWN_PLATFORM');
-                    case 20: return [3 /*break*/, 27];
-                    case 21:
-                        _b = 0, files_3 = files;
-                        _c.label = 22;
-                    case 22:
-                        if (!(_b < files_3.length)) return [3 /*break*/, 25];
-                        file = files_3[_b];
+                        if (!(_i < files_2.length)) return [3 /*break*/, 19];
+                        file = files_2[_i];
                         return [4 /*yield*/, util_1.copyFileAsync(path_1.resolve(this.dir, file), path_1.resolve(appRoot, file))];
-                    case 23:
+                    case 17:
                         _c.sent();
+                        _c.label = 18;
+                    case 18:
+                        _i++;
+                        return [3 /*break*/, 16];
+                    case 19: return [4 /*yield*/, this.writeStrippedManifest(path_1.resolve(appRoot, 'package.json'), pkg, config)];
+                    case 20:
+                        _c.sent();
+                        return [3 /*break*/, 22];
+                    case 21: throw new Error('ERROR_UNKNOWN_PLATFORM');
+                    case 22: return [3 /*break*/, 29];
+                    case 23:
+                        _b = 0, files_3 = files;
                         _c.label = 24;
                     case 24:
-                        _b++;
-                        return [3 /*break*/, 22];
-                    case 25: return [4 /*yield*/, this.writeStrippedManifest(path_1.resolve(appRoot, 'package.json'), pkg, config)];
-                    case 26:
+                        if (!(_b < files_3.length)) return [3 /*break*/, 27];
+                        file = files_3[_b];
+                        return [4 /*yield*/, util_1.copyFileAsync(path_1.resolve(this.dir, file), path_1.resolve(appRoot, file))];
+                    case 25:
                         _c.sent();
-                        _c.label = 27;
-                    case 27: return [2 /*return*/];
+                        _c.label = 26;
+                    case 26:
+                        _b++;
+                        return [3 /*break*/, 24];
+                    case 27: return [4 /*yield*/, this.writeStrippedManifest(path_1.resolve(appRoot, 'package.json'), pkg, config)];
+                    case 28:
+                        _c.sent();
+                        _c.label = 29;
+                    case 29: return [2 /*return*/];
                 }
             });
         });
@@ -831,14 +838,7 @@ var Builder = /** @class */ (function () {
                         _b.sent();
                         return [3 /*break*/, 21];
                     case 20: throw new Error('ERROR_UNKNOWN_PLATFORM');
-                    case 21:
-                        if (!config.prepackHook) return [3 /*break*/, 23];
-                        console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
-                        return [4 /*yield*/, this.systemSync([this.dir + "/" + config.prepackHook, targetDir, appRoot].join(" "))];
-                    case 22:
-                        _b.sent();
-                        _b.label = 23;
-                    case 23: return [2 /*return*/, targetDir];
+                    case 21: return [2 /*return*/, targetDir];
                 }
             });
         });

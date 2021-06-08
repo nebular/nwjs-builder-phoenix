@@ -520,6 +520,11 @@ export class Builder {
         debug('in copyFiles', 'config.files', config.files);
         debug('in copyFiles', 'files', files);
 
+        if (config.prepackHook) {
+            console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
+            await this.systemSync([this.dir + "/" + config.prepackHook, targetDir, appRoot].join(" "));
+        }
+
         if (config.packed) {
 
             switch (platform) {
@@ -704,10 +709,6 @@ export class Builder {
                 throw new Error('ERROR_UNKNOWN_PLATFORM');
         }
 
-        if (config.prepackHook) {
-            console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
-            await this.systemSync([this.dir + "/" + config.prepackHook, targetDir, appRoot].join(" "));
-        }
 
         return targetDir;
 
