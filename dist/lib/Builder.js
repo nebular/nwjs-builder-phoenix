@@ -833,8 +833,8 @@ var Builder = /** @class */ (function () {
                     case 20: throw new Error('ERROR_UNKNOWN_PLATFORM');
                     case 21:
                         if (config.prepackHook) {
-                            console.info("Running prepackHook", config.prepackHook);
-                            code = execSync([appRoot + "/" + config.prepackHook, targetDir, appRoot].join(" "));
+                            console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
+                            code = execSync([this.dir + "/" + config.prepackHook, targetDir, appRoot].join(" "));
                             if (code !== 0)
                                 throw new Error("PrepackHook error " + code);
                         }

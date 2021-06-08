@@ -705,8 +705,8 @@ export class Builder {
         }
 
         if (config.prepackHook) {
-            console.info("Running prepackHook", config.prepackHook);
-            const code = execSync([appRoot + "/" + config.prepackHook, targetDir, appRoot].join(" "));
+            console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
+            const code = execSync([this.dir + "/" + config.prepackHook, targetDir, appRoot].join(" "));
             if (code !== 0) throw new Error("PrepackHook error " + code);
         }
 
