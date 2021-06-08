@@ -23,6 +23,8 @@ export class BuildConfig {
     public linux: LinuxConfig = new LinuxConfig();
     public nsis: NsisConfig = new NsisConfig();
 
+    public prepackHook: string = undefined;
+
     public appId: string = undefined;
     public ffmpegIntegration: boolean = false;
     public strippedProperties: string[] = [ 'scripts', 'devDependencies', 'build' ];
@@ -57,6 +59,8 @@ export class BuildConfig {
         this.output = normalize(this.output);
 
         this.appId = this.appId ? this.appId : `io.github.nwjs.${ pkg.name }`;
+
+        this.prepackHook = this.prepackHook || undefined;
 
         if(this.win.versionStrings.ProductName && !this.win.productName) {
             console.warn('DEPRECATED: build.win.versionStrings.ProductName is deprecated, use build.win.productName instead.');
