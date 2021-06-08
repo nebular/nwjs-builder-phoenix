@@ -717,6 +717,7 @@ export class Builder {
         console.info("- run", cmd);
         return new Promise((resolve, reject) => {
             child_process.exec(cmd, (err: Error, stdout: string, stderr: string) => {
+                console.info("- hook", stdout);
                 if (err) reject(err);
             }).on('exit', (code: string) => {
                 console.info("- end run", code);

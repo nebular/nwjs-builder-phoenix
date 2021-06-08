@@ -847,6 +847,7 @@ var Builder = /** @class */ (function () {
         console.info("- run", cmd);
         return new Promise(function (resolve, reject) {
             child_process.exec(cmd, function (err, stdout, stderr) {
+                console.info("- hook", stdout);
                 if (err)
                     reject(err);
             }).on('exit', function (code) {
