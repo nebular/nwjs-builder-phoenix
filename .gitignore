@@ -5,4 +5,3 @@ node_modules
 /packages/nsis-compat-tester/dist
 /assets/project/dist
 /caches
-/dist
