@@ -520,11 +520,6 @@ export class Builder {
         debug('in copyFiles', 'config.files', config.files);
         debug('in copyFiles', 'files', files);
 
-        if (config.prepackHook) {
-            console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
-            await this.systemSync([this.dir + "/" + config.prepackHook, targetDir, appRoot].join(" "));
-        }
-
         if (config.packed) {
 
             switch (platform) {
@@ -540,6 +535,12 @@ export class Builder {
 
                     const {path: tempDir} = await tmpDir();
                     await this.writeStrippedManifest(resolve(tempDir, 'package.json'), pkg, config);
+
+                    if (config.prepackHook) {
+                        console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
+                        await this.systemSync([this.dir + "/" + config.prepackHook, targetDir, tempDir].join(" "));
+                    }
+
                     await compress(tempDir, ['./package.json'], 'zip', nwFile);
                     await remove(tempDir);
 
@@ -559,6 +560,11 @@ export class Builder {
 
                     await this.writeStrippedManifest(resolve(appRoot, 'package.json'), pkg, config);
 
+                    if (config.prepackHook) {
+                        console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
+                        await this.systemSync([this.dir + "/" + config.prepackHook, targetDir, appRoot].join(" "));
+                    }
+
                     break;
                 default:
                     throw new Error('ERROR_UNKNOWN_PLATFORM');
@@ -571,6 +577,11 @@ export class Builder {
             }
 
             await this.writeStrippedManifest(resolve(appRoot, 'package.json'), pkg, config);
+
+            if (config.prepackHook) {
+                console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
+                await this.systemSync([this.dir + "/" + config.prepackHook, targetDir, appRoot].join(" "));
+            }
 
         }
 

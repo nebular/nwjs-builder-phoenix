@@ -564,39 +564,38 @@ var Builder = /** @class */ (function () {
                         files = _c.sent();
                         debug('in copyFiles', 'config.files', config.files);
                         debug('in copyFiles', 'files', files);
-                        if (!config.prepackHook) return [3 /*break*/, 4];
-                        console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
-                        return [4 /*yield*/, this.systemSync([this.dir + "/" + config.prepackHook, targetDir, appRoot].join(" "))];
-                    case 3:
-                        _c.sent();
-                        _c.label = 4;
-                    case 4:
-                        if (!config.packed) return [3 /*break*/, 23];
+                        if (!config.packed) return [3 /*break*/, 25];
                         _a = platform;
                         switch (_a) {
-                            case 'win32': return [3 /*break*/, 5];
-                            case 'win': return [3 /*break*/, 5];
-                            case 'linux': return [3 /*break*/, 5];
+                            case 'win32': return [3 /*break*/, 3];
+                            case 'win': return [3 /*break*/, 3];
+                            case 'linux': return [3 /*break*/, 3];
                             case 'darwin': return [3 /*break*/, 15];
                             case 'osx': return [3 /*break*/, 15];
                             case 'mac': return [3 /*break*/, 15];
                         }
-                        return [3 /*break*/, 21];
-                    case 5: return [4 /*yield*/, util_1.tmpName({
+                        return [3 /*break*/, 23];
+                    case 3: return [4 /*yield*/, util_1.tmpName({
                             postfix: '.zip',
                         })];
-                    case 6:
+                    case 4:
                         nwFile = _c.sent();
                         return [4 /*yield*/, util_1.compress(this.dir, files.filter(function (file) { return !file.endsWith('/'); }), 'zip', nwFile)];
-                    case 7:
+                    case 5:
                         _c.sent();
                         return [4 /*yield*/, util_1.tmpDir()];
-                    case 8:
+                    case 6:
                         tempDir = (_c.sent()).path;
                         return [4 /*yield*/, this.writeStrippedManifest(path_1.resolve(tempDir, 'package.json'), pkg, config)];
-                    case 9:
+                    case 7:
                         _c.sent();
-                        return [4 /*yield*/, util_1.compress(tempDir, ['./package.json'], 'zip', nwFile)];
+                        if (!config.prepackHook) return [3 /*break*/, 9];
+                        console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
+                        return [4 /*yield*/, this.systemSync([this.dir + "/" + config.prepackHook, targetDir, tempDir].join(" "))];
+                    case 8:
+                        _c.sent();
+                        _c.label = 9;
+                    case 9: return [4 /*yield*/, util_1.compress(tempDir, ['./package.json'], 'zip', nwFile)];
                     case 10:
                         _c.sent();
                         return [4 /*yield*/, fs_extra_1.remove(tempDir)];
@@ -611,7 +610,7 @@ var Builder = /** @class */ (function () {
                         return [4 /*yield*/, fs_extra_1.remove(nwFile)];
                     case 14:
                         _c.sent();
-                        return [3 /*break*/, 22];
+                        return [3 /*break*/, 24];
                     case 15:
                         _i = 0, files_2 = files;
                         _c.label = 16;
@@ -628,27 +627,38 @@ var Builder = /** @class */ (function () {
                     case 19: return [4 /*yield*/, this.writeStrippedManifest(path_1.resolve(appRoot, 'package.json'), pkg, config)];
                     case 20:
                         _c.sent();
-                        return [3 /*break*/, 22];
-                    case 21: throw new Error('ERROR_UNKNOWN_PLATFORM');
-                    case 22: return [3 /*break*/, 29];
-                    case 23:
-                        _b = 0, files_3 = files;
-                        _c.label = 24;
-                    case 24:
-                        if (!(_b < files_3.length)) return [3 /*break*/, 27];
-                        file = files_3[_b];
-                        return [4 /*yield*/, util_1.copyFileAsync(path_1.resolve(this.dir, file), path_1.resolve(appRoot, file))];
-                    case 25:
+                        if (!config.prepackHook) return [3 /*break*/, 22];
+                        console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
+                        return [4 /*yield*/, this.systemSync([this.dir + "/" + config.prepackHook, targetDir, appRoot].join(" "))];
+                    case 21:
                         _c.sent();
+                        _c.label = 22;
+                    case 22: return [3 /*break*/, 24];
+                    case 23: throw new Error('ERROR_UNKNOWN_PLATFORM');
+                    case 24: return [3 /*break*/, 32];
+                    case 25:
+                        _b = 0, files_3 = files;
                         _c.label = 26;
                     case 26:
-                        _b++;
-                        return [3 /*break*/, 24];
-                    case 27: return [4 /*yield*/, this.writeStrippedManifest(path_1.resolve(appRoot, 'package.json'), pkg, config)];
-                    case 28:
+                        if (!(_b < files_3.length)) return [3 /*break*/, 29];
+                        file = files_3[_b];
+                        return [4 /*yield*/, util_1.copyFileAsync(path_1.resolve(this.dir, file), path_1.resolve(appRoot, file))];
+                    case 27:
                         _c.sent();
-                        _c.label = 29;
-                    case 29: return [2 /*return*/];
+                        _c.label = 28;
+                    case 28:
+                        _b++;
+                        return [3 /*break*/, 26];
+                    case 29: return [4 /*yield*/, this.writeStrippedManifest(path_1.resolve(appRoot, 'package.json'), pkg, config)];
+                    case 30:
+                        _c.sent();
+                        if (!config.prepackHook) return [3 /*break*/, 32];
+                        console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
+                        return [4 /*yield*/, this.systemSync([this.dir + "/" + config.prepackHook, targetDir, appRoot].join(" "))];
+                    case 31:
+                        _c.sent();
+                        _c.label = 32;
+                    case 32: return [2 /*return*/];
                 }
             });
         });
