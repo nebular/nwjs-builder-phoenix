@@ -51,7 +51,7 @@ var debug = require('debug')('build:builder');
 var globby = require('globby');
 var rcedit = require('rcedit');
 var plist = require('plist');
-var spawnSync = require('child_process').spawnSync;
+var child_process = require('child_process');
 var Downloader_1 = require("./Downloader");
 var FFmpegDownloader_1 = require("./FFmpegDownloader");
 var config_1 = require("./config");
@@ -743,7 +743,7 @@ var Builder = /** @class */ (function () {
     };
     Builder.prototype.buildDirTarget = function (platform, arch, runtimeDir, pkg, config) {
         return __awaiter(this, void 0, void 0, function () {
-            var targetDir, runtimeRoot, appRoot, _a, data;
+            var targetDir, runtimeRoot, appRoot, _a;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -832,14 +832,29 @@ var Builder = /** @class */ (function () {
                         return [3 /*break*/, 21];
                     case 20: throw new Error('ERROR_UNKNOWN_PLATFORM');
                     case 21:
-                        if (config.prepackHook) {
-                            console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
-                            data = spawnSync([this.dir + "/" + config.prepackHook, targetDir, appRoot].join(" "));
-                            if (data.status !== 0)
-                                throw new Error("PrepackHook error " + data.status);
-                        }
-                        return [2 /*return*/, targetDir];
+                        if (!config.prepackHook) return [3 /*break*/, 23];
+                        console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
+                        return [4 /*yield*/, this.systemSync([this.dir + "/" + config.prepackHook, targetDir, appRoot].join(" "))];
+                    case 22:
+                        _b.sent();
+                        _b.label = 23;
+                    case 23: return [2 /*return*/, targetDir];
                 }
+            });
+        });
+    };
+    Builder.prototype.systemSync = function (cmd) {
+        console.info("- run", cmd);
+        return new Promise(function (resolve, reject) {
+            child_process.exec(cmd, function (err, stdout, stderr) {
+                if (err)
+                    reject(err);
+            }).on('exit', function (code) {
+                console.info("- end run", code);
+                if (!code)
+                    resolve();
+                else
+                    reject(new Error("error code " + code));
             });
         });
     };

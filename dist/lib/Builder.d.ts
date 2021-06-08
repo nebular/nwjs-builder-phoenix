@@ -51,6 +51,7 @@ export declare class Builder {
     protected integrateFFmpeg(platform: string, arch: string, targetDir: string, pkg: any, config: BuildConfig): Promise<void>;
     protected buildNsisDiffUpdater(platform: string, arch: string, versionInfo: NsisVersionInfo, fromVersion: string, toVersion: string, pkg: any, config: BuildConfig): Promise<void>;
     protected buildDirTarget(platform: string, arch: string, runtimeDir: string, pkg: any, config: BuildConfig): Promise<string>;
+    private systemSync;
     protected buildArchiveTarget(type: string, sourceDir: string): Promise<string>;
     protected buildNsisTarget(platform: string, arch: string, sourceDir: string, pkg: any, config: BuildConfig): Promise<void>;
     protected buildNsis7zTarget(platform: string, arch: string, sourceDir: string, pkg: any, config: BuildConfig): Promise<void>;

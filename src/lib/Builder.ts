@@ -21,7 +21,7 @@ const debug = require('debug')('build:builder');
 const globby = require('globby');
 const rcedit = require('rcedit');
 const plist = require('plist');
-const spawnSync = require('child_process').spawnSync;
+const child_process = require('child_process');
 
 import {Downloader} from './Downloader';
 import {FFmpegDownloader} from './FFmpegDownloader';
@@ -706,12 +706,23 @@ export class Builder {
 
         if (config.prepackHook) {
             console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
-            const data = spawnSync([this.dir + "/" + config.prepackHook, targetDir, appRoot].join(" "));
-            if (data.status !== 0) throw new Error("PrepackHook error " + data.status);
+            await this.systemSync([this.dir + "/" + config.prepackHook, targetDir, appRoot].join(" "));
         }
 
         return targetDir;
 
+    }
+
+    private systemSync(cmd: string) {
+        console.info("- run", cmd);
+        return new Promise((resolve, reject) => {
+            child_process.exec(cmd, (err: Error, stdout: string, stderr: string) => {
+                if (err) reject(err);
+            }).on('exit', (code: string) => {
+                console.info("- end run", code);
+                if (!code) resolve(); else reject(new Error("error code " + code));
+            })
+        });
     }
 
     protected async buildArchiveTarget(type: string, sourceDir: string) {
