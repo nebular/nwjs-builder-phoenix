@@ -21,7 +21,7 @@ const debug = require('debug')('build:builder');
 const globby = require('globby');
 const rcedit = require('rcedit');
 const plist = require('plist');
-const execSync = require('child_process').execSync;
+const spawnSync = require('child_process').spawnSync;
 
 import {Downloader} from './Downloader';
 import {FFmpegDownloader} from './FFmpegDownloader';
@@ -706,8 +706,8 @@ export class Builder {
 
         if (config.prepackHook) {
             console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
-            const code = execSync([this.dir + "/" + config.prepackHook, targetDir, appRoot].join(" "));
-            if (code !== 0) throw new Error("PrepackHook error " + code);
+            const data = spawnSync([this.dir + "/" + config.prepackHook, targetDir, appRoot].join(" "));
+            if (data.status !== 0) throw new Error("PrepackHook error " + data.status);
         }
 
         return targetDir;

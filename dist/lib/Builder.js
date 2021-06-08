@@ -51,7 +51,7 @@ var debug = require('debug')('build:builder');
 var globby = require('globby');
 var rcedit = require('rcedit');
 var plist = require('plist');
-var execSync = require('child_process').execSync;
+var spawnSync = require('child_process').spawnSync;
 var Downloader_1 = require("./Downloader");
 var FFmpegDownloader_1 = require("./FFmpegDownloader");
 var config_1 = require("./config");
@@ -743,7 +743,7 @@ var Builder = /** @class */ (function () {
     };
     Builder.prototype.buildDirTarget = function (platform, arch, runtimeDir, pkg, config) {
         return __awaiter(this, void 0, void 0, function () {
-            var targetDir, runtimeRoot, appRoot, _a, code;
+            var targetDir, runtimeRoot, appRoot, _a, data;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -834,9 +834,9 @@ var Builder = /** @class */ (function () {
                     case 21:
                         if (config.prepackHook) {
                             console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
-                            code = execSync([this.dir + "/" + config.prepackHook, targetDir, appRoot].join(" "));
-                            if (code !== 0)
-                                throw new Error("PrepackHook error " + code);
+                            data = spawnSync([this.dir + "/" + config.prepackHook, targetDir, appRoot].join(" "));
+                            if (data.status !== 0)
+                                throw new Error("PrepackHook error " + data.status);
                         }
                         return [2 /*return*/, targetDir];
                 }
