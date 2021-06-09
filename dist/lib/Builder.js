@@ -629,7 +629,7 @@ var Builder = /** @class */ (function () {
                         _c.sent();
                         if (!config.prepackHook) return [3 /*break*/, 22];
                         console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
-                        return [4 /*yield*/, this.systemSync([this.dir + "/" + config.prepackHook, targetDir, appRoot].join(" "))];
+                        return [4 /*yield*/, this.systemSync(["bash", this.dir + "/" + config.prepackHook, targetDir, appRoot].join(" "))];
                     case 21:
                         _c.sent();
                         _c.label = 22;
