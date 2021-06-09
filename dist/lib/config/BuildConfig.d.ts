@@ -16,6 +16,7 @@ export declare class BuildConfig {
     linux: LinuxConfig;
     nsis: NsisConfig;
     prepackHook: string;
+    runInstall: boolean;
     appId: string;
     ffmpegIntegration: boolean;
     strippedProperties: string[];

@@ -24,6 +24,7 @@ export class BuildConfig {
     public nsis: NsisConfig = new NsisConfig();
 
     public prepackHook: string = undefined;
+    public runInstall: boolean = true;
 
     public appId: string = undefined;
     public ffmpegIntegration: boolean = false;

@@ -46,6 +46,8 @@ export declare class Builder {
     protected renameLinuxApp(targetDir: string, appRoot: string, pkg: any, config: BuildConfig): Promise<void>;
     protected prepareWinBuild(targetDir: string, appRoot: string, pkg: any, config: BuildConfig): Promise<void>;
     protected prepareMacBuild(targetDir: string, appRoot: string, pkg: any, config: BuildConfig): Promise<void>;
+    private maybeRunPrehookScript;
+    private maybeRunNpmInstall;
     protected prepareLinuxBuild(targetDir: string, appRoot: string, pkg: any, config: BuildConfig): Promise<void>;
     protected copyFiles(platform: string, targetDir: string, appRoot: string, pkg: any, config: BuildConfig): Promise<void>;
     protected integrateFFmpeg(platform: string, arch: string, targetDir: string, pkg: any, config: BuildConfig): Promise<void>;

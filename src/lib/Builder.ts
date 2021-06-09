@@ -476,6 +476,24 @@ export class Builder {
 
     }
 
+    private async maybeRunPrehookScript(config: BuildConfig, targetDir:String, tempDir:String) {
+        if (config.prepackHook) {
+            console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
+            await this.systemSync([config.prepackHook, "\"" + targetDir + "\"", "\"" + tempDir + "\""].join(" "));
+        }
+    }
+
+    private async maybeRunNpmInstall(config: BuildConfig, tempAppDir:String) {
+        if (config.prepackHook) {
+            await this.systemSync([
+                "npm",
+                "--prefix",
+                "\"" + tempAppDir + "\"",
+                "\"" + tempAppDir + "\""
+            ].join(" "));
+        }
+    }
+
     protected async prepareLinuxBuild(targetDir: string, appRoot: string, pkg: any, config: BuildConfig) {
 
         await this.fixLinuxMode(targetDir, appRoot, pkg, config);
@@ -536,10 +554,18 @@ export class Builder {
                     const {path: tempDir} = await tmpDir();
                     await this.writeStrippedManifest(resolve(tempDir, 'package.json'), pkg, config);
 
-                    if (config.prepackHook) {
-                        console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
-                        await this.systemSync([ config.prepackHook, "\"" + targetDir + "\"", "\"" + tempDir + "\""].join(" "));
+                    if (config.runInstall) {
+                        console.info("Installing Dependencies");
+                        await this.systemSync([
+                            "npm",
+                            "--prefix",
+                            "\"" + tempDir + "\"",
+                            "\"" + tempDir + "\""
+                        ].join(" "));
                     }
+
+                    await this.maybeRunNpmInstall(config, tempDir);
+                    await this.maybeRunPrehookScript(config, targetDir, tempDir);
 
                     await compress(tempDir, ['./package.json'], 'zip', nwFile);
                     await remove(tempDir);
@@ -560,10 +586,8 @@ export class Builder {
 
                     await this.writeStrippedManifest(resolve(appRoot, 'package.json'), pkg, config);
 
-                    if (config.prepackHook) {
-                        console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
-                        await this.systemSync([ config.prepackHook, "\"" + targetDir + "\"", "\"" + tempDir + "\""].join(" "));
-                    }
+                    await this.maybeRunNpmInstall(config, tempDir);
+                    await this.maybeRunPrehookScript(config, targetDir, tempDir);
 
                     break;
                 default:
@@ -577,11 +601,8 @@ export class Builder {
             }
 
             await this.writeStrippedManifest(resolve(appRoot, 'package.json'), pkg, config);
-
-            if (config.prepackHook) {
-                console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
-                await this.systemSync([config.prepackHook, "\"" + targetDir + "\"", "\"" + appRoot + "\""].join(" "));
-            }
+            await this.maybeRunNpmInstall(config, appRoot);
+            await this.maybeRunPrehookScript(config, targetDir, appRoot);
 
         }
 

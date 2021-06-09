@@ -518,6 +518,42 @@ var Builder = /** @class */ (function () {
             });
         });
     };
+    Builder.prototype.maybeRunPrehookScript = function (config, targetDir, tempDir) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!config.prepackHook) return [3 /*break*/, 2];
+                        console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
+                        return [4 /*yield*/, this.systemSync([config.prepackHook, "\"" + targetDir + "\"", "\"" + tempDir + "\""].join(" "))];
+                    case 1:
+                        _a.sent();
+                        _a.label = 2;
+                    case 2: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Builder.prototype.maybeRunNpmInstall = function (config, tempAppDir) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!config.prepackHook) return [3 /*break*/, 2];
+                        return [4 /*yield*/, this.systemSync([
+                                "npm",
+                                "--prefix",
+                                "\"" + tempAppDir + "\"",
+                                "\"" + tempAppDir + "\""
+                            ].join(" "))];
+                    case 1:
+                        _a.sent();
+                        _a.label = 2;
+                    case 2: return [2 /*return*/];
+                }
+            });
+        });
+    };
     Builder.prototype.prepareLinuxBuild = function (targetDir, appRoot, pkg, config) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -564,17 +600,17 @@ var Builder = /** @class */ (function () {
                         files = _c.sent();
                         debug('in copyFiles', 'config.files', config.files);
                         debug('in copyFiles', 'files', files);
-                        if (!config.packed) return [3 /*break*/, 25];
+                        if (!config.packed) return [3 /*break*/, 27];
                         _a = platform;
                         switch (_a) {
                             case 'win32': return [3 /*break*/, 3];
                             case 'win': return [3 /*break*/, 3];
                             case 'linux': return [3 /*break*/, 3];
-                            case 'darwin': return [3 /*break*/, 15];
-                            case 'osx': return [3 /*break*/, 15];
-                            case 'mac': return [3 /*break*/, 15];
+                            case 'darwin': return [3 /*break*/, 17];
+                            case 'osx': return [3 /*break*/, 17];
+                            case 'mac': return [3 /*break*/, 17];
                         }
-                        return [3 /*break*/, 23];
+                        return [3 /*break*/, 25];
                     case 3: return [4 /*yield*/, util_1.tmpName({
                             postfix: '.zip',
                         })];
@@ -589,76 +625,88 @@ var Builder = /** @class */ (function () {
                         return [4 /*yield*/, this.writeStrippedManifest(path_1.resolve(tempDir, 'package.json'), pkg, config)];
                     case 7:
                         _c.sent();
-                        if (!config.prepackHook) return [3 /*break*/, 9];
-                        console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
-                        return [4 /*yield*/, this.systemSync([config.prepackHook, "\"" + targetDir + "\"", "\"" + tempDir + "\""].join(" "))];
+                        if (!config.runInstall) return [3 /*break*/, 9];
+                        console.info("Installing Dependencies");
+                        return [4 /*yield*/, this.systemSync([
+                                "npm",
+                                "--prefix",
+                                "\"" + tempDir + "\"",
+                                "\"" + tempDir + "\""
+                            ].join(" "))];
                     case 8:
                         _c.sent();
                         _c.label = 9;
-                    case 9: return [4 /*yield*/, util_1.compress(tempDir, ['./package.json'], 'zip', nwFile)];
+                    case 9: return [4 /*yield*/, this.maybeRunNpmInstall(config, tempDir)];
                     case 10:
                         _c.sent();
-                        return [4 /*yield*/, fs_extra_1.remove(tempDir)];
+                        return [4 /*yield*/, this.maybeRunPrehookScript(config, targetDir, tempDir)];
                     case 11:
                         _c.sent();
-                        return [4 /*yield*/, util_1.findExecutable(platform, targetDir)];
+                        return [4 /*yield*/, util_1.compress(tempDir, ['./package.json'], 'zip', nwFile)];
                     case 12:
-                        executable = _c.sent();
-                        return [4 /*yield*/, this.combineExecutable(executable, nwFile)];
+                        _c.sent();
+                        return [4 /*yield*/, fs_extra_1.remove(tempDir)];
                     case 13:
                         _c.sent();
-                        return [4 /*yield*/, fs_extra_1.remove(nwFile)];
+                        return [4 /*yield*/, util_1.findExecutable(platform, targetDir)];
                     case 14:
-                        _c.sent();
-                        return [3 /*break*/, 24];
+                        executable = _c.sent();
+                        return [4 /*yield*/, this.combineExecutable(executable, nwFile)];
                     case 15:
-                        _i = 0, files_2 = files;
-                        _c.label = 16;
-                    case 16:
-                        if (!(_i < files_2.length)) return [3 /*break*/, 19];
-                        file = files_2[_i];
-                        return [4 /*yield*/, util_1.copyFileAsync(path_1.resolve(this.dir, file), path_1.resolve(appRoot, file))];
-                    case 17:
                         _c.sent();
+                        return [4 /*yield*/, fs_extra_1.remove(nwFile)];
+                    case 16:
+                        _c.sent();
+                        return [3 /*break*/, 26];
+                    case 17:
+                        _i = 0, files_2 = files;
                         _c.label = 18;
                     case 18:
-                        _i++;
-                        return [3 /*break*/, 16];
-                    case 19: return [4 /*yield*/, this.writeStrippedManifest(path_1.resolve(appRoot, 'package.json'), pkg, config)];
-                    case 20:
-                        _c.sent();
-                        if (!config.prepackHook) return [3 /*break*/, 22];
-                        console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
-                        return [4 /*yield*/, this.systemSync([config.prepackHook, "\"" + targetDir + "\"", "\"" + tempDir + "\""].join(" "))];
-                    case 21:
-                        _c.sent();
-                        _c.label = 22;
-                    case 22: return [3 /*break*/, 24];
-                    case 23: throw new Error('ERROR_UNKNOWN_PLATFORM');
-                    case 24: return [3 /*break*/, 32];
-                    case 25:
-                        _b = 0, files_3 = files;
-                        _c.label = 26;
-                    case 26:
-                        if (!(_b < files_3.length)) return [3 /*break*/, 29];
-                        file = files_3[_b];
+                        if (!(_i < files_2.length)) return [3 /*break*/, 21];
+                        file = files_2[_i];
                         return [4 /*yield*/, util_1.copyFileAsync(path_1.resolve(this.dir, file), path_1.resolve(appRoot, file))];
-                    case 27:
+                    case 19:
                         _c.sent();
+                        _c.label = 20;
+                    case 20:
+                        _i++;
+                        return [3 /*break*/, 18];
+                    case 21: return [4 /*yield*/, this.writeStrippedManifest(path_1.resolve(appRoot, 'package.json'), pkg, config)];
+                    case 22:
+                        _c.sent();
+                        return [4 /*yield*/, this.maybeRunNpmInstall(config, tempDir)];
+                    case 23:
+                        _c.sent();
+                        return [4 /*yield*/, this.maybeRunPrehookScript(config, targetDir, tempDir)];
+                    case 24:
+                        _c.sent();
+                        return [3 /*break*/, 26];
+                    case 25: throw new Error('ERROR_UNKNOWN_PLATFORM');
+                    case 26: return [3 /*break*/, 35];
+                    case 27:
+                        _b = 0, files_3 = files;
                         _c.label = 28;
                     case 28:
-                        _b++;
-                        return [3 /*break*/, 26];
-                    case 29: return [4 /*yield*/, this.writeStrippedManifest(path_1.resolve(appRoot, 'package.json'), pkg, config)];
+                        if (!(_b < files_3.length)) return [3 /*break*/, 31];
+                        file = files_3[_b];
+                        return [4 /*yield*/, util_1.copyFileAsync(path_1.resolve(this.dir, file), path_1.resolve(appRoot, file))];
+                    case 29:
+                        _c.sent();
+                        _c.label = 30;
                     case 30:
+                        _b++;
+                        return [3 /*break*/, 28];
+                    case 31: return [4 /*yield*/, this.writeStrippedManifest(path_1.resolve(appRoot, 'package.json'), pkg, config)];
+                    case 32:
                         _c.sent();
-                        if (!config.prepackHook) return [3 /*break*/, 32];
-                        console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
-                        return [4 /*yield*/, this.systemSync([config.prepackHook, "\"" + targetDir + "\"", "\"" + appRoot + "\""].join(" "))];
-                    case 31:
+                        return [4 /*yield*/, this.maybeRunNpmInstall(config, appRoot)];
+                    case 33:
                         _c.sent();
-                        _c.label = 32;
-                    case 32: return [2 /*return*/];
+                        return [4 /*yield*/, this.maybeRunPrehookScript(config, targetDir, appRoot)];
+                    case 34:
+                        _c.sent();
+                        _c.label = 35;
+                    case 35: return [2 /*return*/];
                 }
             });
         });

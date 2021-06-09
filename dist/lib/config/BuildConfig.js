@@ -22,6 +22,7 @@ var BuildConfig = /** @class */ (function () {
         this.linux = new LinuxConfig_1.LinuxConfig();
         this.nsis = new NsisConfig_1.NsisConfig();
         this.prepackHook = undefined;
+        this.runInstall = true;
         this.appId = undefined;
         this.ffmpegIntegration = false;
         this.strippedProperties = ['scripts', 'devDependencies', 'build'];
