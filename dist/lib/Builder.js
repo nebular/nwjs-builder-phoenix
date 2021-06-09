@@ -663,10 +663,10 @@ var Builder = /** @class */ (function () {
                     case 19: return [4 /*yield*/, this.writeStrippedManifest(path_1.resolve(appRoot, 'package.json'), pkg, config)];
                     case 20:
                         _c.sent();
-                        return [4 /*yield*/, this.maybeRunNpmInstall(config, tempDir)];
+                        return [4 /*yield*/, this.maybeRunNpmInstall(config, appRoot)];
                     case 21:
                         _c.sent();
-                        return [4 /*yield*/, this.maybeRunPrehookScript(config, targetDir, tempDir)];
+                        return [4 /*yield*/, this.maybeRunPrehookScript(config, targetDir, appRoot)];
                     case 22:
                         _c.sent();
                         return [3 /*break*/, 24];

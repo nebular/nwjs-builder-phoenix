@@ -576,8 +576,8 @@ export class Builder {
 
                     await this.writeStrippedManifest(resolve(appRoot, 'package.json'), pkg, config);
 
-                    await this.maybeRunNpmInstall(config, tempDir);
-                    await this.maybeRunPrehookScript(config, targetDir, tempDir);
+                    await this.maybeRunNpmInstall(config, appRoot);
+                    await this.maybeRunPrehookScript(config, targetDir, appRoot);
 
                     break;
                 default:
