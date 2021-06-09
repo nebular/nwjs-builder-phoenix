@@ -538,7 +538,7 @@ export class Builder {
 
                     if (config.prepackHook) {
                         console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
-                        await this.systemSync([this.dir + "/" + config.prepackHook, "\"" + targetDir + "\"", "\"" + tempDir + "\""].join(" "));
+                        await this.systemSync([ config.prepackHook, "\"" + targetDir + "\"", "\"" + tempDir + "\""].join(" "));
                     }
 
                     await compress(tempDir, ['./package.json'], 'zip', nwFile);
@@ -562,7 +562,7 @@ export class Builder {
 
                     if (config.prepackHook) {
                         console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
-                        await this.systemSync([this.dir + "/" + config.prepackHook, "\"" + targetDir + "\"", "\"" + tempDir + "\""].join(" "));
+                        await this.systemSync([ config.prepackHook, "\"" + targetDir + "\"", "\"" + tempDir + "\""].join(" "));
                     }
 
                     break;
@@ -580,7 +580,7 @@ export class Builder {
 
             if (config.prepackHook) {
                 console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
-                await this.systemSync([this.dir + "/" + config.prepackHook, "\"" + targetDir + "\"", "\"" + appRoot + "\""].join(" "));
+                await this.systemSync([config.prepackHook, "\"" + targetDir + "\"", "\"" + appRoot + "\""].join(" "));
             }
 
         }
