@@ -591,7 +591,7 @@ var Builder = /** @class */ (function () {
                         _c.sent();
                         if (!config.prepackHook) return [3 /*break*/, 9];
                         console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
-                        return [4 /*yield*/, this.systemSync(["bash", this.dir + "/" + config.prepackHook, targetDir, tempDir].join(" "))];
+                        return [4 /*yield*/, this.systemSync([this.dir + "/" + config.prepackHook, "\"" + targetDir + "\"", "\"" + tempDir + "\""].join(" "))];
                     case 8:
                         _c.sent();
                         _c.label = 9;
@@ -629,7 +629,7 @@ var Builder = /** @class */ (function () {
                         _c.sent();
                         if (!config.prepackHook) return [3 /*break*/, 22];
                         console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
-                        return [4 /*yield*/, this.systemSync(["bash", this.dir + "/" + config.prepackHook, targetDir, appRoot].join(" "))];
+                        return [4 /*yield*/, this.systemSync([this.dir + "/" + config.prepackHook, "\"" + targetDir + "\"", "\"" + tempDir + "\""].join(" "))];
                     case 21:
                         _c.sent();
                         _c.label = 22;
@@ -654,7 +654,7 @@ var Builder = /** @class */ (function () {
                         _c.sent();
                         if (!config.prepackHook) return [3 /*break*/, 32];
                         console.info("Running prepackHook", config.prepackHook, "from dir", this.dir);
-                        return [4 /*yield*/, this.systemSync(["bash", this.dir + "/" + config.prepackHook, targetDir, appRoot].join(" "))];
+                        return [4 /*yield*/, this.systemSync([this.dir + "/" + config.prepackHook, "\"" + targetDir + "\"", "\"" + appRoot + "\""].join(" "))];
                     case 31:
                         _c.sent();
                         _c.label = 32;
