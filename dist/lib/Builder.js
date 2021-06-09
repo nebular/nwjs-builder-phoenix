@@ -600,17 +600,17 @@ var Builder = /** @class */ (function () {
                         files = _c.sent();
                         debug('in copyFiles', 'config.files', config.files);
                         debug('in copyFiles', 'files', files);
-                        if (!config.packed) return [3 /*break*/, 27];
+                        if (!config.packed) return [3 /*break*/, 25];
                         _a = platform;
                         switch (_a) {
                             case 'win32': return [3 /*break*/, 3];
                             case 'win': return [3 /*break*/, 3];
                             case 'linux': return [3 /*break*/, 3];
-                            case 'darwin': return [3 /*break*/, 17];
-                            case 'osx': return [3 /*break*/, 17];
-                            case 'mac': return [3 /*break*/, 17];
+                            case 'darwin': return [3 /*break*/, 15];
+                            case 'osx': return [3 /*break*/, 15];
+                            case 'mac': return [3 /*break*/, 15];
                         }
-                        return [3 /*break*/, 25];
+                        return [3 /*break*/, 23];
                     case 3: return [4 /*yield*/, util_1.tmpName({
                             postfix: '.zip',
                         })];
@@ -625,88 +625,77 @@ var Builder = /** @class */ (function () {
                         return [4 /*yield*/, this.writeStrippedManifest(path_1.resolve(tempDir, 'package.json'), pkg, config)];
                     case 7:
                         _c.sent();
-                        if (!config.runInstall) return [3 /*break*/, 9];
-                        console.info("Installing Dependencies");
-                        return [4 /*yield*/, this.systemSync([
-                                "npm",
-                                "--prefix",
-                                "\"" + tempDir + "\"",
-                                "\"" + tempDir + "\""
-                            ].join(" "))];
+                        return [4 /*yield*/, this.maybeRunNpmInstall(config, tempDir)];
                     case 8:
                         _c.sent();
-                        _c.label = 9;
-                    case 9: return [4 /*yield*/, this.maybeRunNpmInstall(config, tempDir)];
-                    case 10:
-                        _c.sent();
                         return [4 /*yield*/, this.maybeRunPrehookScript(config, targetDir, tempDir)];
-                    case 11:
+                    case 9:
                         _c.sent();
                         return [4 /*yield*/, util_1.compress(tempDir, ['./package.json'], 'zip', nwFile)];
-                    case 12:
+                    case 10:
                         _c.sent();
                         return [4 /*yield*/, fs_extra_1.remove(tempDir)];
-                    case 13:
+                    case 11:
                         _c.sent();
                         return [4 /*yield*/, util_1.findExecutable(platform, targetDir)];
-                    case 14:
+                    case 12:
                         executable = _c.sent();
                         return [4 /*yield*/, this.combineExecutable(executable, nwFile)];
-                    case 15:
+                    case 13:
                         _c.sent();
                         return [4 /*yield*/, fs_extra_1.remove(nwFile)];
-                    case 16:
+                    case 14:
                         _c.sent();
-                        return [3 /*break*/, 26];
-                    case 17:
+                        return [3 /*break*/, 24];
+                    case 15:
                         _i = 0, files_2 = files;
-                        _c.label = 18;
-                    case 18:
-                        if (!(_i < files_2.length)) return [3 /*break*/, 21];
+                        _c.label = 16;
+                    case 16:
+                        if (!(_i < files_2.length)) return [3 /*break*/, 19];
                         file = files_2[_i];
                         return [4 /*yield*/, util_1.copyFileAsync(path_1.resolve(this.dir, file), path_1.resolve(appRoot, file))];
-                    case 19:
+                    case 17:
                         _c.sent();
-                        _c.label = 20;
-                    case 20:
+                        _c.label = 18;
+                    case 18:
                         _i++;
-                        return [3 /*break*/, 18];
-                    case 21: return [4 /*yield*/, this.writeStrippedManifest(path_1.resolve(appRoot, 'package.json'), pkg, config)];
-                    case 22:
+                        return [3 /*break*/, 16];
+                    case 19: return [4 /*yield*/, this.writeStrippedManifest(path_1.resolve(appRoot, 'package.json'), pkg, config)];
+                    case 20:
                         _c.sent();
                         return [4 /*yield*/, this.maybeRunNpmInstall(config, tempDir)];
-                    case 23:
+                    case 21:
                         _c.sent();
                         return [4 /*yield*/, this.maybeRunPrehookScript(config, targetDir, tempDir)];
-                    case 24:
+                    case 22:
                         _c.sent();
-                        return [3 /*break*/, 26];
-                    case 25: throw new Error('ERROR_UNKNOWN_PLATFORM');
-                    case 26: return [3 /*break*/, 35];
-                    case 27:
+                        return [3 /*break*/, 24];
+                    case 23: throw new Error('ERROR_UNKNOWN_PLATFORM');
+                    case 24: return [3 /*break*/, 33];
+                    case 25:
                         _b = 0, files_3 = files;
-                        _c.label = 28;
-                    case 28:
-                        if (!(_b < files_3.length)) return [3 /*break*/, 31];
+                        _c.label = 26;
+                    case 26:
+                        if (!(_b < files_3.length)) return [3 /*break*/, 29];
                         file = files_3[_b];
                         return [4 /*yield*/, util_1.copyFileAsync(path_1.resolve(this.dir, file), path_1.resolve(appRoot, file))];
-                    case 29:
+                    case 27:
                         _c.sent();
-                        _c.label = 30;
-                    case 30:
+                        _c.label = 28;
+                    case 28:
                         _b++;
-                        return [3 /*break*/, 28];
-                    case 31: return [4 /*yield*/, this.writeStrippedManifest(path_1.resolve(appRoot, 'package.json'), pkg, config)];
-                    case 32:
+                        return [3 /*break*/, 26];
+                    case 29: return [4 /*yield*/, this.writeStrippedManifest(path_1.resolve(appRoot, 'package.json'), pkg, config)];
+                    case 30:
                         _c.sent();
                         return [4 /*yield*/, this.maybeRunNpmInstall(config, appRoot)];
-                    case 33:
+                    case 31:
                         _c.sent();
                         return [4 /*yield*/, this.maybeRunPrehookScript(config, targetDir, appRoot)];
-                    case 34:
+                    case 32:
                         _c.sent();
-                        _c.label = 35;
-                    case 35: return [2 /*return*/];
+                        _c.label = 33;
+                    case 33: return [2 /*return*/];
                 }
             });
         });
