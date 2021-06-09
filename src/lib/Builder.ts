@@ -484,7 +484,7 @@ export class Builder {
     }
 
     private async maybeRunNpmInstall(config: BuildConfig, tempAppDir:String) {
-        if (config.prepackHook) {
+        if (config.runInstall) {
             await this.systemSync([
                 "npm",
                 "--prefix",

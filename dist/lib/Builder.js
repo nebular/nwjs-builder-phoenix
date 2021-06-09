@@ -539,7 +539,7 @@ var Builder = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!config.prepackHook) return [3 /*break*/, 2];
+                        if (!config.runInstall) return [3 /*break*/, 2];
                         return [4 /*yield*/, this.systemSync([
                                 "npm",
                                 "--prefix",
