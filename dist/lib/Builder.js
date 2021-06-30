@@ -542,6 +542,7 @@ var Builder = /** @class */ (function () {
                         if (!config.runInstall) return [3 /*break*/, 2];
                         return [4 /*yield*/, this.systemSync([
                                 "npm",
+                                "install",
                                 "--prefix",
                                 "\"" + tempAppDir + "\"",
                                 "\"" + tempAppDir + "\""

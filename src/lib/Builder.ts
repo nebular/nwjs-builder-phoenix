@@ -487,6 +487,7 @@ export class Builder {
         if (config.runInstall) {
             await this.systemSync([
                 "npm",
+                "install",
                 "--prefix",
                 "\"" + tempAppDir + "\"",
                 "\"" + tempAppDir + "\""
