@@ -11,7 +11,7 @@ const progress = require('request-progress');
 import { Event } from './Event';
 import { mergeOptions, extractGeneric } from '../util';
 
-const DIR_CACHES = resolve(dirname(module.filename), '..', '..', '..', 'caches');
+const DIR_CACHES = process.env.NWJS_BUILDER_CACHE ||  resolve(dirname(module.filename), '..', '..', '..', 'caches');
 ensureDirSync(DIR_CACHES);
 
 export interface IRequestProgress {
