@@ -43,7 +43,7 @@ var debug = require('debug')('build:downloader');
 var progress = require('request-progress');
 var Event_1 = require("./Event");
 var util_1 = require("../util");
-var DIR_CACHES = path_1.resolve(path_1.dirname(module.filename), '..', '..', '..', 'caches');
+var DIR_CACHES = process.env.NWJS_BUILDER_CACHE || path_1.resolve(path_1.dirname(module.filename), '..', '..', '..', 'caches');
 fs_extra_1.ensureDirSync(DIR_CACHES);
 var DownloaderBase = /** @class */ (function () {
     function DownloaderBase() {

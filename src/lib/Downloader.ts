@@ -63,7 +63,7 @@ export class Downloader extends DownloaderBase {
 
         const url = `${ mirror }/${ partVersion }/nwjs${ partFlavor }-${ partVersion }-${ partPlatform }-${ partArch }.${ partExtension }`;
         const filename = basename(url);
-        const path = resolve(this.destination, filename);
+        const path = resolve(this.destination, partVersion, filename);
 
         debug('in fetch', 'url', url);
         debug('in fetch', 'filename', filename);
