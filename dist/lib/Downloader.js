@@ -79,7 +79,7 @@ var Downloader = /** @class */ (function (_super) {
                         partExtension = this.extensionByPlatform(platform);
                         url = mirror + "/" + partVersion + "/nwjs" + partFlavor + "-" + partVersion + "-" + partPlatform + "-" + partArch + "." + partExtension;
                         filename = path_1.basename(url);
-                        path = path_1.resolve(this.destination, partVersion, filename);
+                        path = path_1.resolve(this.destination, partVersion.substring(1), filename);
                         console.log('in fetch', 'url', url);
                         console.log('in fetch', 'filename', filename);
                         console.log('in fetch', 'path', path);
