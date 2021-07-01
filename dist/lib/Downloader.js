@@ -79,10 +79,10 @@ var Downloader = /** @class */ (function (_super) {
                         partExtension = this.extensionByPlatform(platform);
                         url = mirror + "/" + partVersion + "/nwjs" + partFlavor + "-" + partVersion + "-" + partPlatform + "-" + partArch + "." + partExtension;
                         filename = path_1.basename(url);
-                        path = path_1.resolve(this.destination, filename);
-                        debug('in fetch', 'url', url);
-                        debug('in fetch', 'filename', filename);
-                        debug('in fetch', 'path', path);
+                        path = path_1.resolve(this.destination, partVersion, filename);
+                        console.log('in fetch', 'url', url);
+                        console.log('in fetch', 'filename', filename);
+                        console.log('in fetch', 'path', path);
                         _b = this.options.forceCaches;
                         if (!_b) return [3 /*break*/, 3];
                         return [4 /*yield*/, this.isFileExists(path)];
@@ -178,7 +178,7 @@ var Downloader = /** @class */ (function (_super) {
         mirror: 'https://dl.nwjs.io/',
         useCaches: true,
         showProgress: true,
-        forceCaches: false,
+        forceCaches: true,
         destination: DownloaderBase_1.DownloaderBase.DEFAULT_DESTINATION,
     };
     return Downloader;
