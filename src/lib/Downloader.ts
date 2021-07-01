@@ -28,7 +28,7 @@ export class Downloader extends DownloaderBase {
         mirror: 'https://dl.nwjs.io/',
         useCaches: true,
         showProgress: true,
-        forceCaches: false,
+        forceCaches: true,
         destination: DownloaderBase.DEFAULT_DESTINATION,
     };
 
@@ -65,9 +65,9 @@ export class Downloader extends DownloaderBase {
         const filename = basename(url);
         const path = resolve(this.destination, partVersion, filename);
 
-        debug('in fetch', 'url', url);
-        debug('in fetch', 'filename', filename);
-        debug('in fetch', 'path', path);
+        console.log('in fetch', 'url', url);
+        console.log('in fetch', 'filename', filename);
+        console.log('in fetch', 'path', path);
 
         if (this.options.forceCaches && await this.isFileExists(path)) {
             return path;
