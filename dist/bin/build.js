@@ -68,6 +68,11 @@ var argv = require('yargs')
     describe: 'Build for x64 arch',
     default: lib_1.Builder.DEFAULT_OPTIONS.x64,
 })
+    .option('arm64', {
+    type: 'boolean',
+    describe: 'Build for arm64 arch',
+    default: lib_1.Builder.DEFAULT_OPTIONS.arm64,
+})
     .option('tasks', {
     type: 'string',
     describe: 'List of <PLATFORM>-<ARCH> to build, separated by comma.',

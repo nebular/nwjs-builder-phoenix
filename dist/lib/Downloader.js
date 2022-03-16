@@ -173,7 +173,7 @@ var Downloader = /** @class */ (function (_super) {
     Downloader.DEFAULT_OPTIONS = {
         platform: process.platform,
         arch: process.arch,
-        version: '0.14.7',
+        version: '0.61.0',
         flavor: 'normal',
         mirror: 'https://dl.nwjs.io/',
         useCaches: true,

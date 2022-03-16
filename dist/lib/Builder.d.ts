@@ -12,6 +12,7 @@ export interface IBuilderOptions {
     linux?: boolean;
     x86?: boolean;
     x64?: boolean;
+    arm64?: boolean;
     tasks?: string[];
     chromeApp?: boolean;
     mirror?: string;

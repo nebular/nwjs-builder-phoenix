@@ -75,7 +75,7 @@ var Builder = /** @class */ (function () {
                     case 0:
                         tasks = [];
                         ['win', 'mac', 'linux'].map(function (platform) {
-                            ['x86', 'x64'].map(function (arch) {
+                            ['x86', 'x64', 'arm64'].map(function (arch) {
                                 if (_this.options[platform] && _this.options[arch]) {
                                     tasks.push([platform, arch]);
                                 }
@@ -85,7 +85,7 @@ var Builder = /** @class */ (function () {
                             task = _a[_i];
                             _b = task.split('-'), platform = _b[0], arch = _b[1];
                             if (['win', 'mac', 'linux'].indexOf(platform) >= 0) {
-                                if (['x86', 'x64'].indexOf(arch) >= 0) {
+                                if (['x86', 'x64', 'arm64'].indexOf(arch) >= 0) {
                                     tasks.push([platform, arch]);
                                 }
                             }
@@ -1197,6 +1197,7 @@ var Builder = /** @class */ (function () {
         linux: false,
         x86: false,
         x64: false,
+        arm64: false,
         tasks: [],
         chromeApp: false,
         mirror: Downloader_1.Downloader.DEFAULT_OPTIONS.mirror,
