@@ -23,7 +23,7 @@ export class Downloader extends DownloaderBase {
     public static DEFAULT_OPTIONS: IDownloaderOptions = {
         platform: process.platform,
         arch: process.arch,
-        version: '0.14.7',
+        version: '0.61.0',
         flavor: 'normal',
         mirror: 'https://dl.nwjs.io/',
         useCaches: true,
