@@ -9,7 +9,6 @@ var NsisConfig = /** @class */ (function () {
         this.languages = ['English'];
         // public installDirectory: string = '$LOCALAPPDATA\\${_APPNAME}';
         this.installDirectory = '$PROGRAMFILES\\${_APPNAME}';
-        this.solid = true;
         this.diffUpdaters = false;
         this.hashCalculation = true;
         Object.keys(this).map(function (key) {
