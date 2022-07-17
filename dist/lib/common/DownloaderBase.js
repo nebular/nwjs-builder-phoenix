@@ -103,6 +103,8 @@ var DownloaderBase = /** @class */ (function () {
                 return 'ia32';
             case 'x64':
                 return 'x64';
+            case 'arm64':
+                return 'arm64';
             default:
                 throw new Error('ERROR_UNKNOWN_PLATFORM');
         }

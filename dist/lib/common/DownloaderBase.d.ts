@@ -21,7 +21,7 @@ export declare abstract class DownloaderBase {
     protected getVersions(): Promise<any>;
     protected setDestination(destination: string): void;
     protected handlePlatform(platform: string): "linux" | "win" | "osx";
-    protected handleArch(arch: string): "ia32" | "x64";
+    protected handleArch(arch: string): "ia32" | "x64" | "arm64";
     protected getLocalSize(path: string): Promise<number>;
     protected getRemoteSize(url: string): Promise<number>;
     protected isFileExists(path: string): Promise<{}>;

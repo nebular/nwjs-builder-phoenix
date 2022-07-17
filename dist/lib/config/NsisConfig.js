@@ -7,7 +7,9 @@ var NsisConfig = /** @class */ (function () {
         this.icon = undefined;
         this.unIcon = undefined;
         this.languages = ['English'];
-        this.installDirectory = '$LOCALAPPDATA\\${_APPNAME}';
+        // public installDirectory: string = '$LOCALAPPDATA\\${_APPNAME}';
+        this.installDirectory = '$PROGRAMFILES\\${_APPNAME}';
+        this.solid = true;
         this.diffUpdaters = false;
         this.hashCalculation = true;
         Object.keys(this).map(function (key) {
